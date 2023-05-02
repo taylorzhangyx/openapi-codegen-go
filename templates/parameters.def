@@ -1,9 +1,9 @@
 {{= data.tags.section }}
-<h3 id="{{=data.operationUniqueSlug}}-parameters">Parameters</h3>
+<h3 id="{{=data.operationUniqueSlug}}-parameters">输入参数</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-{{~ data.parameters :p}}|{{=p.name}}|{{=p.in}}|{{=p.safeType}}|{{=p.required}}|{{=p.shortDesc || 'none'}}|
+|参数名称|必选|类型|描述|
+|---|---|---|---|
+{{~ data.parameters :p}}|{{=p.name}}|{{=p.required}}|{{=p.safeType}}|{{=p.shortDesc || 'none'}}|
 {{~}}
 
 {{? data.longDescs }}

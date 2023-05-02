@@ -23,7 +23,7 @@
 {{ if (response.content && !response.$ref && !data.utils.isPrimitive(response.type)) data.responseSchemas = true; }}
 {{~}}
 {{? data.responseSchemas }}
-<h3 id="{{=data.operationUniqueSlug}}-responseschema">Response Schema</h3>
+<h3 id="{{=data.operationUniqueSlug}}-responseschema">输出参数</h3>
 {{~ data.responses :response}}
 {{? response.content && !response.$ref && !data.utils.isPrimitive(response.type)}}
 {{? Object.keys(response.content).length }}
@@ -48,9 +48,9 @@ Status Code **{{=response.status}}**
 {{~ blocks :block}}
 {{? block.title }}*{{=block.title}}*
 {{?}}
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-{{~block.rows :p}}|{{=p.displayName}}|{{=p.safeType}}|{{=p.required}}|{{=p.restrictions||'none'}}|{{=p.description||'none'}}|
+|参数名称|类型|描述|
+|---|---|---|
+{{~block.rows :p}}|{{=p.displayName}}|{{=p.safeType}}|{{=p.description||'none'}}|
 {{~}}
 {{~}}
 {{?}}
