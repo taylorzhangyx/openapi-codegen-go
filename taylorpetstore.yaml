@@ -20,60 +20,88 @@ servers:
 paths:
   /pets:
     get:
-      summary: Returns all pets
+      summary: 获取所有 pet 的信息
       description: |
-        Returns all pets from the system that the user has access to
+        获取系统中所有用户能够访问的 pet 的信息。
       operationId: findPets
       parameters:
         - name: tags
           in: query
-          description: tags to filter by
+          description: 用来过滤 pet 的标签
           required: false
           style: form
           schema:
             type: array
             items:
               type: string
+          examples:
+            仅返回 tag 为 cat 的 pet:
+              value: ['cat']
         - name: limit
           in: query
-          description: maximum number of results to return
+          description: 返回的最大 pet 数量
           required: false
           schema:
             type: integer
             format: int32
+          examples:
+            10 个 pet:
+              value: 10
       responses:
         '200':
-          description: pet response
+          description: 成功的 pet 列表
           content:
             application/json:
               schema:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pet'
+              examples:
+                一个简单的例子:
+                  value:
+                    - id: 1000
+                      name: Miao
+                      tag: cat
         default:
-          description: unexpected error
+          description: 错误信息
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
     post:
-      summary: Creates a new pet
-      description: Creates a new pet in the store. Duplicates are allowed
+      summary: 创建新的 pet
+      description: |
+        创建新的 pet，如果 pet 已经存在，则返回错误。
       operationId: addPet
       requestBody:
-        description: Pet to add to the store
+        description: 要创建并保存的 pet 信息
         required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/NewPet'
+            examples:
+              新增一只猫:
+                value:
+                  name: Miao
+                  tag: cat
+              新增一只狗:
+                value:
+                  name: Wang
+                  tag: dog
       responses:
         '200':
-          description: pet response
+          description: 成功创建的 pet 信息
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
+              examples:
+                成功新增一只猫:
+                  value:
+                    id: 1000
+                    name: Miao
+                    tag: cat
         default:
           description: unexpected error
           content:
