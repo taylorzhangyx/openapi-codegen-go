@@ -110,47 +110,52 @@ paths:
                 $ref: '#/components/schemas/Error'
   /pets/{id}:
     get:
-      summary: Returns a pet by ID
-      description: Returns a pet based on a single ID
+      summary: 根据 ID 获取 pet 信息
+      description: |
+        根据 ID 获取 pet 信息，如果 pet 不存在，则返回错误。
       operationId: findPetByID
       parameters:
         - name: id
           in: path
-          description: ID of pet to fetch
+          description: 要获取的 pet 的 ID
           required: true
           schema:
             type: integer
             format: int64
+          examples:
+            简单的例子:
+              value: 1001
       responses:
         '200':
-          description: pet response
+          description: 获取到的 pet 信息
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pet'
         default:
-          description: unexpected error
+          description: 错误信息
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
     delete:
-      summary: Deletes a pet by ID
-      description: deletes a single pet based on the ID supplied
+      summary: 删除 pet
+      description: |
+        根据 ID 删除 pet，如果 pet 不存在，则返回错误。
       operationId: deletePet
       parameters:
         - name: id
           in: path
-          description: ID of pet to delete
+          description: 要删除的 pet 的 ID
           required: true
           schema:
             type: integer
             format: int64
       responses:
         '204':
-          description: pet deleted
+          description: 成功删除 pet
         default:
-          description: unexpected error
+          description: 错误信息
           content:
             application/json:
               schema:
@@ -166,7 +171,7 @@ components:
             id:
               type: integer
               format: int64
-              description: Unique id of the pet
+              description: pet 的唯一 ID
 
     NewPet:
       required:
@@ -174,10 +179,10 @@ components:
       properties:
         name:
           type: string
-          description: Name of the pet
+          description: pet 的名字
         tag:
           type: string
-          description: Type of the pet
+          description: pet 的标签
 
     Error:
       required:
@@ -187,7 +192,7 @@ components:
         code:
           type: integer
           format: int32
-          description: Error code
+          description: 错误码
         message:
           type: string
-          description: Error message
+          description: 错误信息

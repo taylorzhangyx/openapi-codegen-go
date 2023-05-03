@@ -5,40 +5,40 @@ package api
 
 // Error defines model for Error.
 type Error struct {
-	// Code Error code
+	// Code 错误码
 	Code int32 `json:"code"`
 
-	// Message Error message
+	// Message 错误信息
 	Message string `json:"message"`
 }
 
 // NewPet defines model for NewPet.
 type NewPet struct {
-	// Name Name of the pet
+	// Name pet 的名字
 	Name string `json:"name"`
 
-	// Tag Type of the pet
+	// Tag pet 的标签
 	Tag *string `json:"tag,omitempty"`
 }
 
 // Pet defines model for Pet.
 type Pet struct {
-	// Id Unique id of the pet
+	// Id pet 的唯一 ID
 	Id int64 `json:"id"`
 
-	// Name Name of the pet
+	// Name pet 的名字
 	Name string `json:"name"`
 
-	// Tag Type of the pet
+	// Tag pet 的标签
 	Tag *string `json:"tag,omitempty"`
 }
 
 // FindPetsParams defines parameters for FindPets.
 type FindPetsParams struct {
-	// Tags tags to filter by
+	// Tags 用来过滤 pet 的标签
 	Tags *[]string `form:"tags,omitempty" json:"tags,omitempty"`
 
-	// Limit maximum number of results to return
+	// Limit 返回的最大 pet 数量
 	Limit *int32 `form:"limit,omitempty" json:"limit,omitempty"`
 }
 

@@ -14,7 +14,7 @@ headingLevel: 2
 
 <h1 id="taylor-s-petstore">Taylor's Petstore v1.0.0</h1>
 
-> Scroll down for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
+> 下滑 for code samples, example requests and responses. Select a language for code samples from the tabs above or the mobile navigation menu.
 
 Taylor's Petstore example to demonstrate openapi 3.0
 
@@ -31,120 +31,146 @@ License: <a href="https://www.apache.org/licenses/LICENSE-2.0.html">Apache 2.0</
 
 <h1 id="taylor-s-petstore-default">Default</h1>
 
-## Returns all pets
+## 获取所有 pet 的信息
 
 <a id="opIdfindPets"></a>
 
 `GET /pets`
 
-Returns all pets from the system that the user has access to
+获取系统中所有用户能够访问的 pet 的信息。
 
-<h3 id="returns-all-pets-parameters">Parameters</h3>
+<h3 id="获取所有-pet-的信息-parameters">输入参数</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|tags|query|array[string]|false|tags to filter by|
-|limit|query|integer(int32)|false|maximum number of results to return|
+|参数名称|必选|类型|描述|
+|---|---|---|---|
+|tags|false|array[string]|用来过滤 pet 的标签|
+|limit|false|integer(int32)|返回的最大 pet 数量|
 
 > Example responses
 
-> 200 Response
+> 成功的 pet 列表
 
 ```json
 [
-  null
+  {
+    "id": 1000,
+    "name": "Miao",
+    "tag": "cat"
+  }
 ]
 ```
 
-<h3 id="returns-all-pets-responses">Responses</h3>
+> default Response
+
+```json
+{
+  "code": 0,
+  "message": "string"
+}
+```
+
+<h3 id="获取所有-pet-的信息-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|pet response|Inline|
-|default|Default|unexpected error|[Error](#schemaerror)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|成功的 pet 列表|Inline|
+|default|Default|错误信息|[Error](#schemaerror)|
 
-<h3 id="returns-all-pets-responseschema">Response Schema</h3>
+<h3 id="获取所有-pet-的信息-responseschema">输出参数</h3>
 
 Status Code **200**
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|*anonymous*|[allOf]|false|none|none|
+|参数名称|类型|描述|
+|---|---|---|
+|*anonymous*|[allOf]|none|
 
 *allOf*
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» *anonymous*|object|false|none|none|
-|»» name|string|true|none|Name of the pet|
-|»» tag|string|false|none|Type of the pet|
+|参数名称|类型|描述|
+|---|---|---|
+|*anonymous*|object|none|
+|name|string|pet 的名字|
+|tag|string|pet 的标签|
 
 *and*
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|» *anonymous*|object|false|none|none|
-|»» id|integer(int64)|true|none|Unique id of the pet|
+|参数名称|类型|描述|
+|---|---|---|
+|*anonymous*|object|none|
+|id|integer(int64)|pet 的唯一 ID|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## Creates a new pet
+## 创建新的 pet
 
 <a id="opIdaddPet"></a>
 
 `POST /pets`
 
-Creates a new pet in the store. Duplicates are allowed
+创建新的 pet，如果 pet 已经存在，则返回错误。
 
 > Body parameter
 
 ```json
 {
-  "name": "string",
-  "tag": "string"
+  "name": "Miao",
+  "tag": "cat"
 }
 ```
 
-<h3 id="creates-a-new-pet-parameters">Parameters</h3>
+<h3 id="创建新的-pet-parameters">输入参数</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|body|body|[NewPet](#schemanewpet)|true|Pet to add to the store|
+|参数名称|必选|类型|描述|
+|---|---|---|---|
+|body|true|[NewPet](#schemanewpet)|要创建并保存的 pet 信息|
 
 > Example responses
 
-> 200 Response
+> 成功创建的 pet 信息
 
 ```json
-null
+{
+  "id": 1000,
+  "name": "Miao",
+  "tag": "cat"
+}
 ```
 
-<h3 id="creates-a-new-pet-responses">Responses</h3>
+> default Response
+
+```json
+{
+  "code": 0,
+  "message": "string"
+}
+```
+
+<h3 id="创建新的-pet-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|pet response|[Pet](#schemapet)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|成功创建的 pet 信息|[Pet](#schemapet)|
 |default|Default|unexpected error|[Error](#schemaerror)|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## Returns a pet by ID
+## 根据 ID 获取 pet 信息
 
 <a id="opIdfindPetByID"></a>
 
 `GET /pets/{id}`
 
-Returns a pet based on a single ID
+根据 ID 获取 pet 信息，如果 pet 不存在，则返回错误。
 
-<h3 id="returns-a-pet-by-id-parameters">Parameters</h3>
+<h3 id="根据-id-获取-pet-信息-parameters">输入参数</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|id|path|integer(int64)|true|ID of pet to fetch|
+|参数名称|必选|类型|描述|
+|---|---|---|---|
+|id|true|integer(int64)|要获取的 pet 的 ID|
 
 > Example responses
 
@@ -154,30 +180,30 @@ Returns a pet based on a single ID
 null
 ```
 
-<h3 id="returns-a-pet-by-id-responses">Responses</h3>
+<h3 id="根据-id-获取-pet-信息-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|pet response|[Pet](#schemapet)|
-|default|Default|unexpected error|[Error](#schemaerror)|
+|200|[OK](https://tools.ietf.org/html/rfc7231#section-6.3.1)|获取到的 pet 信息|[Pet](#schemapet)|
+|default|Default|错误信息|[Error](#schemaerror)|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-## Deletes a pet by ID
+## 删除 pet
 
 <a id="opIddeletePet"></a>
 
 `DELETE /pets/{id}`
 
-deletes a single pet based on the ID supplied
+根据 ID 删除 pet，如果 pet 不存在，则返回错误。
 
-<h3 id="deletes-a-pet-by-id-parameters">Parameters</h3>
+<h3 id="删除-pet-parameters">输入参数</h3>
 
-|Name|In|Type|Required|Description|
-|---|---|---|---|---|
-|id|path|integer(int64)|true|ID of pet to delete|
+|参数名称|必选|类型|描述|
+|---|---|---|---|
+|id|true|integer(int64)|要删除的 pet 的 ID|
 
 > Example responses
 
@@ -190,18 +216,18 @@ deletes a single pet based on the ID supplied
 }
 ```
 
-<h3 id="deletes-a-pet-by-id-responses">Responses</h3>
+<h3 id="删除-pet-responses">Responses</h3>
 
 |Status|Meaning|Description|Schema|
 |---|---|---|---|
-|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|pet deleted|None|
-|default|Default|unexpected error|[Error](#schemaerror)|
+|204|[No Content](https://tools.ietf.org/html/rfc7231#section-6.3.5)|成功删除 pet|None|
+|default|Default|错误信息|[Error](#schemaerror)|
 
 <aside class="success">
 This operation does not require authentication
 </aside>
 
-# Schemas
+# 复杂类型
 
 <h2 id="tocS_Pet">Pet</h2>
 
@@ -219,16 +245,16 @@ null
 
 allOf
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|*anonymous*|[NewPet](#schemanewpet)|false|none|none|
+|名称|类型|描述|
+|---|---|---|
+|*anonymous*|[NewPet](#schemanewpet)|none|
 
 and
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|*anonymous*|object|false|none|none|
-|» id|integer(int64)|true|none|Unique id of the pet|
+|名称|类型|描述|
+|---|---|---|
+|*anonymous*|object|none|
+|id|integer(int64)|pet 的唯一 ID|
 
 <h2 id="tocS_NewPet">NewPet</h2>
 
@@ -247,10 +273,10 @@ and
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|name|string|true|none|Name of the pet|
-|tag|string|false|none|Type of the pet|
+|名称|类型|描述|
+|---|---|---|
+|name|string|pet 的名字|
+|tag|string|pet 的标签|
 
 <h2 id="tocS_Error">Error</h2>
 
@@ -269,8 +295,8 @@ and
 
 ### Properties
 
-|Name|Type|Required|Restrictions|Description|
-|---|---|---|---|---|
-|code|integer(int32)|true|none|Error code|
-|message|string|true|none|Error message|
+|名称|类型|描述|
+|---|---|---|
+|code|integer(int32)|错误码|
+|message|string|错误信息|
 
