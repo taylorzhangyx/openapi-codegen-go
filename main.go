@@ -14,11 +14,12 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"taylorzhangyx.github.com/taylorpetstore/api"
+	"taylorzhangyx.github.com/taylorpetstore/biz"
 
 	middleware "github.com/deepmap/oapi-codegen/pkg/gin-middleware"
 )
 
-func NewGinPetServer(petStore *api.PetStore, host string, port int) *http.Server {
+func NewGinPetServer(petStore *biz.PetStore, host string, port int) *http.Server {
 	swagger, err := api.GetSwagger()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error loading swagger spec\n: %s", err)
@@ -55,7 +56,7 @@ func main() {
 
 	flag.Parse()
 	// Create an instance of our handler which satisfies the generated interface
-	petStore := api.NewPetStore()
+	petStore := biz.NewPetStore()
 	s := NewGinPetServer(petStore, *host, *port)
 
 	fmt.Printf("Serving on %s:%d\n", *host, *port)

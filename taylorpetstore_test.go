@@ -10,6 +10,7 @@ import (
 	"github.com/deepmap/oapi-codegen/pkg/testutil"
 	"github.com/stretchr/testify/assert"
 	"taylorzhangyx.github.com/taylorpetstore/api"
+	"taylorzhangyx.github.com/taylorpetstore/biz"
 )
 
 func doGet(t *testing.T, handler http.Handler, url string) *httptest.ResponseRecorder {
@@ -19,7 +20,7 @@ func doGet(t *testing.T, handler http.Handler, url string) *httptest.ResponseRec
 
 func TestPetStore(t *testing.T) {
 	var err error
-	store := api.NewPetStore()
+	store := biz.NewPetStore()
 	ginPetServer := NewGinPetServer(store, "localhost", 8080)
 	r := ginPetServer.Handler
 

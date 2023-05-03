@@ -12,10 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen --config=types.cfg.yaml ../../petstore-expanded.yaml
-//go:generate go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen --config=server.cfg.yaml ../../petstore-expanded.yaml
-
-package api
+package biz
 
 import (
 	"fmt"
@@ -23,17 +20,18 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
+	"taylorzhangyx.github.com/taylorpetstore/api"
 )
 
 type PetStore struct {
-	Pets   map[int64]Pet
+	Pets   map[int64]api.Pet
 	NextId int64
 	Lock   sync.Mutex
 }
 
 func NewPetStore() *PetStore {
 	return &PetStore{
-		Pets:   make(map[int64]Pet),
+		Pets:   make(map[int64]api.Pet),
 		NextId: 1000,
 	}
 }
@@ -41,7 +39,7 @@ func NewPetStore() *PetStore {
 // This function wraps sending of an error in the Error format, and
 // handling the failure to marshal that.
 func sendPetStoreError(c *gin.Context, code int, message string) {
-	petErr := Error{
+	petErr := api.Error{
 		Code:    int32(code),
 		Message: message,
 	}
@@ -49,11 +47,11 @@ func sendPetStoreError(c *gin.Context, code int, message string) {
 }
 
 // FindPets implements all the handlers in the ServerInterface
-func (p *PetStore) FindPets(c *gin.Context, params FindPetsParams) {
+func (p *PetStore) FindPets(c *gin.Context, params api.FindPetsParams) {
 	p.Lock.Lock()
 	defer p.Lock.Unlock()
 
-	var result []Pet
+	var result []api.Pet
 
 	for _, pet := range p.Pets {
 		if params.Tags != nil {
@@ -81,7 +79,7 @@ func (p *PetStore) FindPets(c *gin.Context, params FindPetsParams) {
 
 func (p *PetStore) AddPet(c *gin.Context) {
 	// We expect a NewPet object in the request body.
-	var newPet NewPet
+	var newPet api.NewPet
 	err := c.Bind(&newPet)
 	if err != nil {
 		sendPetStoreError(c, http.StatusBadRequest, "Invalid format for NewPet")
@@ -94,7 +92,7 @@ func (p *PetStore) AddPet(c *gin.Context) {
 	defer p.Lock.Unlock()
 
 	// We handle pets, not NewPets, which have an additional ID field
-	var pet Pet
+	var pet api.Pet
 	pet.Name = newPet.Name
 	pet.Tag = newPet.Tag
 	pet.Id = p.NextId
