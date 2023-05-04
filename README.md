@@ -34,7 +34,7 @@ npm install -g widdershins
 ## Author
 
 **Yuxin(Taylor) Zhang**
-Senior Software Engineer @Tencent, Certified Professional Cloud Software Engineer, Professional Cloud Architect
+Senior Software Engineer, Certified Professional Cloud Software Engineer, Professional Cloud Architect
 
 ML Platform | MLOps | Big Data | Data Intensive Distributed System
 
